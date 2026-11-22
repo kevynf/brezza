@@ -1,0 +1,11 @@
+pub mod app;
+mod diff;
+mod git;
+mod graph;
+mod highlight;
+mod i18n;
+mod model;
+mod tab;
+mod ui;
+mod window_icon;
+mod worktree;

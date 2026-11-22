@@ -1,0 +1,13 @@
+pub mod chrome;
+pub mod commits;
+pub mod detail;
+mod diff_layout;
+mod diff_plan;
+pub mod diff_view;
+pub mod files;
+pub mod fonts;
+pub mod graph_view;
+pub mod icons;
+pub mod sidebar;
+pub mod theme;
+pub mod time_fmt;

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="tile" x1="0" y1="0" x2="0" y2="200" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#232327"/>
+      <stop offset="1" stop-color="#18181b"/>
+    </linearGradient>
+    <filter id="contour" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="2.2" result="blur"/>
+      <feComposite in="SourceAlpha" in2="blur" operator="out" result="edge"/>
+      <feFlood flood-color="#000000" flood-opacity="0.5" result="color"/>
+      <feComposite in="color" in2="edge" operator="in" result="shadow"/>
+      <feMerge>
+        <feMergeNode in="SourceGraphic"/>
+        <feMergeNode in="shadow"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <rect width="200" height="200" rx="10" fill="url(#tile)"/>
+  <g fill="#fafafa" filter="url(#contour)">
+    <path d="M70.067 48.154A4 4 0 0 1 71.766 42.564A64 64 0 0 1 160.34 78.667A4 4 0 0 1 156.569 84L93.072 84A4 4 0 0 1 89.608 82L70.067 48.154Z"/>
+    <path d="M51.355 58.411A4 4 0 0 1 57.859 59.01L114.428 156.99A4 4 0 0 1 111.695 162.922A64 64 0 0 1 51.355 58.411Z"/>
+    <path d="M103.464 106A4 4 0 0 1 106.928 100L159.867 100A4 4 0 0 1 163.858 104.267A64 64 0 0 1 135.624 153.169A4 4 0 0 1 129.933 151.846L103.464 106Z"/>
+  </g>
+</svg>

@@ -1,0 +1,56 @@
+[package]
+name = "brezza"
+version = "0.1.0-alpha.1"
+edition = "2024"
+rust-version = "1.95"
+license = "MIT"
+
+[dependencies]
+eframe = { version = "0.37", default-features = false, features = ["persistence", "glow", "default_fonts", "accesskit", "clipboard", "links", "system_fonts"] }
+egui = "0.37"
+egui_extras = { version = "0.37", features = ["svg"] }
+fontique = "0.11"
+gix = "=0.90.0"
+i18n-embed = { version = "0.16", features = ["fluent-system", "desktop-requester"] }
+i18n-embed-fl = "0.10"
+imara-diff = "0.2"
+jiff = "0.2"
+notify = "8.2"
+rfd = "0.18"
+rust-embed = "8"
+serde = { version = "1", features = ["derive"] }
+thiserror = "2"
+tree-sitter = "0.27"
+tree-sitter-bash = "0.25.1"
+tree-sitter-c = "0.24.2"
+tree-sitter-c-sharp = "0.23.5"
+tree-sitter-cpp = "0.23.4"
+tree-sitter-css = "0.25.0"
+tree-sitter-go = "0.25.0"
+tree-sitter-highlight = "0.27"
+tree-sitter-html = "0.23.2"
+tree-sitter-java = "0.23.5"
+tree-sitter-javascript = "0.25.0"
+tree-sitter-json = "0.24.8"
+tree-sitter-python = "0.25.0"
+tree-sitter-rust = "0.24.2"
+tree-sitter-toml-ng = "0.7.0"
+tree-sitter-typescript = "0.23.2"
+tree-sitter-yaml = "0.7.2"
+raw-window-handle = "0.6"
+
+[lints.clippy]
+allow_attributes = "deny"
+dbg_macro = "deny"
+todo = "deny"
+unimplemented = "deny"
+
+[target.'cfg(windows)'.dependencies]
+windows-sys = { version = "0.52", features = ["Win32_Foundation", "Win32_System_LibraryLoader", "Win32_UI_WindowsAndMessaging"] }
+
+[build-dependencies]
+resvg = { version = "0.45", default-features = false }
+winresource = "0.1"
+
+[profile.dev.package."*"]
+opt-level = 2

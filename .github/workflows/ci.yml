@@ -1,0 +1,63 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: Check
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - name: Cache Rust dependencies
+        uses: Swatinem/rust-cache@v2
+      - name: Verify tag matches package version
+        if: startsWith(github.ref, 'refs/tags/v')
+        shell: pwsh
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          $metadata = cargo metadata --no-deps --format-version 1 | Out-String | ConvertFrom-Json
+          $package = $metadata.packages | Where-Object { $_.name -eq 'brezza' }
+          if ("v$($package.version)" -ne $env:TAG) {
+            throw "Tag $env:TAG does not match Cargo.toml version v$($package.version)"
+          }
+      - name: Check formatting
+        run: cargo fmt --check
+      - name: Run Clippy
+        run: cargo clippy --all-targets -- -D warnings
+
+  release:
+    name: Release
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: check
+    runs-on: windows-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+      - name: Cache Rust dependencies
+        uses: Swatinem/rust-cache@v2
+      - name: Build release binary
+        run: cargo build --release
+      - name: Package release zip
+        run: Compress-Archive target/release/brezza.exe "brezza-${{ github.ref_name }}-x86_64-windows.zip" -CompressionLevel Optimal -Force
+        shell: pwsh
+      - name: Create GitHub release
+        run: gh release create "${{ github.ref_name }}" "brezza-${{ github.ref_name }}-x86_64-windows.zip" --generate-notes ${{ contains(github.ref_name, '-') && '--prerelease' || '' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
